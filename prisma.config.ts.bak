@@ -1,0 +1,8 @@
+import { defineConfig } from '@prisma/config';
+
+export default defineConfig({
+  datasource: {
+    // Membaca URL dari file .env secara otomatis
+    url: process.env.DATABASE_URL,
+  },
+});
