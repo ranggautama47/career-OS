@@ -1,6 +1,6 @@
 # 🎯 CareerOS
 
-> Satu platform untuk semua kebutuhan karier kamu — lacak lamaran, kelola tugas & belajar, catat hal penting, dan dapat bantuan AI yang relevan.
+> One platform for everything in your career journey — track job applications, manage tasks & learning, take smart notes, and get AI assistance that actually understands context.
 
 [![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=next.js)](https://nextjs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)](https://www.typescriptlang.org)
@@ -12,11 +12,17 @@
 
 ## 🎬 Demo Video
 
-> 📺 **[Tonton Demo CareerOS di YouTube →](https://youtube.com/your-link-here)**
+> 📺 **[Watch CareerOS Demo on YouTube →](https://youtube.com/your-link-here)**
 
 ---
 
-## 📸 Preview
+## 🌐 Live Preview
+
+> **[Live Demo — Click Here](https://career-os-gamma.vercel.app/)**
+
+---
+
+## 📸 Screenshots
 
 ### Dashboard
 
@@ -26,7 +32,7 @@
 
 ![Job Tracker](./screenshot/jobtracker.png)
 
-### Detail Lamaran
+### Job Detail
 
 ![Detail Job](./screenshot/show_job.png)
 
@@ -34,7 +40,7 @@
 
 ![Task Manager](./screenshot/taskManager.png)
 
-### Detail Task
+### Task Detail
 
 ![Detail Task](./screenshot/show_task.png)
 
@@ -42,11 +48,11 @@
 
 ![Smart Notes](./screenshot/smartNotes.png)
 
-### Buat Catatan Baru
+### Create New Note
 
 ![New Notes](./screenshot/new_notes.png)
 
-### Detail Catatan
+### Note Detail
 
 ![Show Notes](./screenshot/show_notes.png)
 
@@ -60,41 +66,52 @@
 
 ---
 
-### problems
+## 💬 Tagline
 
-- kenapa saya buat ini karena saya ingin mempermudah saya dalam melacak lamaran kerja saya
-- saya juga ingin membuat seperti remider dan project manajement contohnya saya buat apps butuh berapa lama sampai apps itu selesai
-- saya juga butuh seperti apps yang bisa mencatat perkembangan saya sudah sampai mana belajarnya misal dari course online udemy
-- saya juga butuh apps mirip seperti notion untuk mencatat hal hal penting di satu apps
-- saya ingin mencatat apa saja hal hal penting yang ada di youtube atau online course supaya saya ingat kalau di buku tulisan saya kurang bagus jadi saya ingin membuat notes tapi yang gak seperti notes biasa
+> _"CareerOS: The Ultimate Operating System for Your Career Journey."_
+>
+> _"Stop switching apps. Start building your career."_
 
-## solving
+---
 
-- jadi saya cari ide dari berbagai sumber youtube ai nah ketemu lah idenya. dan terciptalah web dan apps CareerOS ini nah di sini ada 4 dashboard utama job tracker, task manager, smart notes, dan ai tools
-  -selain itu saya juga dapat masukan dan tambahan fitur yang tadi awalnya untuk mencatat lamar kerja dan project management serta notes sekarang mendapatkan upgrade cukup besar dan masuk menjadi product SaaS dan juga dapat membatu karier dan perkembangan diri anda
-- karena ada fitur tambahan dari ai bisa membatu review cv dan memberi masukan perbaikanya dan juga ada ai task planner nanti di buatkan plan belajarnya dari day 1 samapai akhir semakin kompleks maka semakin bagus juga plannernya
-- di task management juga gak cuma untuk project apps tapi juga ada categorinya seperti personal, learnig, job. ada statusnya todo, inprogress, review, dan done. juga tidak lupa dengan prioritynya seperti low, medium, high, dan urgent.
-- dan juga di task ini ada deadline dan estimasinya gitu supaya project atau pun learning kita on track tidak melewati batas waktu yang telah kita tentukan sendiri dan juga terdapat daily progress untuk mencatat perkembangan kita sudah sampai mana baik course atau project kita
-- dan juga di bagian learning ada hal paling penting yaitu misal kita beli course itu ada bab atau lecture nah kamu bisa tulis semuanya bab dan masukan semua ke dalam task yang telah anda buat. gak cuma learning sih bisa juga untuk project job buat di taksnya
-- yang saya banggakan dari apps ini yaitu satu apps terintegrasi jadi cocok untuk pengembangan karier dan perjalanan carier dan juga seperti nama apps ini career os
+## 💡 The Problem
 
-## tag line
+I built CareerOS because I personally experienced the frustration:
 
-    "CareerOS: The Ultimate Operating System for Your Career Journey."
-    "CareerOS: Berhenti berpindah aplikasi. Mulai fokus bangun karier Anda."
+- I needed a way to track all my job applications in one place — not scattered across browser tabs and notes
+- I wanted something like a project manager but for learning — to track how far I've gone in an online course (like Udemy), how many lectures I've finished, and what's next
+- I needed a reminder and deadline system so my projects and learning stay on track
+- I wanted a notes app — but not just a plain notes app. Something that remembers what I wrote even when I search with different words
+- Writing in a notebook doesn't work for me. I needed a digital, searchable, structured place to capture everything important from YouTube videos, online courses, and my own thoughts
 
-## ✨ Fitur Utama
+## 🔧 The Solution
 
-- **Job Tracker** — Lacak semua lamaran dari apply sampai offer, lengkap dengan info HRD, salary range, dan activity log
-- **Task Manager** — Kelola tugas, project, dan course dengan checklist, deadline, estimasi waktu, dan daily progress log
-- **AI Smart Notes** — Catatan dengan rich text editor + semantic search berbasis vector embedding (paham makna, bukan cuma keyword)
-- **AI Tools** — Career Coach untuk review CV & saran karier, Task Planner untuk breakdown rencana belajar, dan motivasi harian
+CareerOS brings all of that into **one integrated platform** with 4 main modules:
+
+**Job Tracker** — Every application, every status update, HRD contact info, salary range, and activity log. All in one place.
+
+**Task Manager** — Not just for coding projects. It has categories (Personal, Learning, Job, Project), priority levels (Low, Medium, High, Urgent), status tracking (Todo → In Progress → Review → Done), deadline + time estimation, and a daily progress log. For learning tasks, you can even log which lecture number you reached each day.
+
+**Smart Notes** — A rich text editor with AI-powered semantic search. Instead of searching by exact keyword, the system understands the _meaning_ of your query and finds relevant notes even if the words don't match exactly. Powered by vector embeddings (pgvector + Gemini).
+
+**AI Tools** — Career Coach for CV review and career advice, Task Planner that generates a day-by-day learning plan, and a daily motivation feature that adapts to your current job application status.
+
+What I'm most proud of: this is a **fully integrated system**. One login, one dashboard, everything connected — exactly like an operating system for your career.
+
+---
+
+## ✨ Key Features
+
+- **Job Tracker** — Track every application from apply to offer, with HRD info, salary range, and activity log
+- **Task Manager** — Manage tasks, projects, and courses with checklist, deadline, time estimation, and daily progress log
+- **AI Smart Notes** — Rich text editor + semantic search powered by vector embeddings (understands meaning, not just keywords)
+- **AI Tools** — Career Coach for CV review, Task Planner for learning roadmaps, and daily motivation powered by Gemini Flash
 
 ---
 
 ## 🛠 Tech Stack
 
-| Layer     | Teknologi                                                                           |
+| Layer     | Technology                                                                          |
 | --------- | ----------------------------------------------------------------------------------- |
 | Framework | Next.js 15 (App Router)                                                             |
 | Language  | TypeScript                                                                          |
@@ -107,7 +124,7 @@
 
 ---
 
-## 📁 Struktur Project
+## 📁 Project Structure
 
 ```
 career-os/
@@ -207,7 +224,7 @@ career-os/
 
 ---
 
-## 🚀 Setup & Instalasi
+## 🚀 Getting Started
 
 ### 1. Clone & Install
 
@@ -219,7 +236,7 @@ npm install
 
 ### 2. Environment Variables
 
-Buat file `.env` di root:
+Create a `.env` file in the root directory:
 
 ```env
 # Supabase
@@ -234,16 +251,16 @@ DIRECT_URL=postgresql://postgres.xxx:password@aws-1-ap-south-1.pooler.supabase.c
 GEMINI_API_KEY=your-gemini-api-key
 ```
 
-### 3. Setup Database
+### 3. Database Setup
 
 ```bash
 npx prisma generate
 npx prisma db push
 ```
 
-### 4. Setup Supabase Auth Trigger
+### 4. Supabase Auth Trigger
 
-Jalankan SQL berikut di Supabase SQL Editor:
+Run this SQL in the Supabase SQL Editor to auto-sync new users:
 
 ```sql
 CREATE OR REPLACE FUNCTION public.handle_new_user()
@@ -261,36 +278,36 @@ CREATE TRIGGER on_auth_user_created
   AFTER INSERT ON auth.users FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
 ```
 
-### 5. Jalankan Dev Server
+### 5. Run Development Server
 
 ```bash
 npm run dev
-# App berjalan di http://localhost:3000
+# App runs at http://localhost:3000
 ```
 
 ---
 
 ## 🤖 AI Model Strategy
 
-| Model                   | Digunakan untuk              | Kuota Free |
-| ----------------------- | ---------------------------- | ---------- |
-| `gemini-2.0-flash-lite` | Motivasi harian (primary)    | Besar      |
-| `gemini-2.5-flash`      | Career Coach & Task Planner  | 20 RPD     |
-| `gemini-embedding-001`  | Vector embeddings (768 dims) | 1K RPD     |
+| Model                   | Used For                     | Free Tier Quota |
+| ----------------------- | ---------------------------- | --------------- |
+| `gemini-2.0-flash-lite` | Daily motivation (primary)   | Large           |
+| `gemini-2.5-flash`      | Career Coach & Task Planner  | 20 RPD          |
+| `gemini-embedding-001`  | Vector embeddings (768 dims) | 1K RPD          |
 
 ---
 
 ## 📊 Database Schema
 
-| Model            | Deskripsi                                             |
-| ---------------- | ----------------------------------------------------- |
-| `User`           | Data user dari Supabase Auth                          |
-| `JobApplication` | Lamaran kerja + info HRD + salary range               |
-| `JobLog`         | Activity log per lamaran                              |
-| `Task`           | Tugas dengan checklist, attachment, dan logs          |
-| `TaskChecklist`  | Sub-task list per task                                |
-| `TaskLog`        | Daily progress log per task                           |
-| `Note`           | Catatan dengan vector embedding untuk semantic search |
+| Model            | Description                                      |
+| ---------------- | ------------------------------------------------ |
+| `User`           | User data synced from Supabase Auth              |
+| `JobApplication` | Job applications with HRD info and salary range  |
+| `JobLog`         | Activity log per application                     |
+| `Task`           | Tasks with checklist, attachments, and logs      |
+| `TaskChecklist`  | Sub-task list per task                           |
+| `TaskLog`        | Daily progress log per task                      |
+| `Note`           | Notes with vector embeddings for semantic search |
 
 ---
 
