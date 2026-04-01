@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@source "../**/*.{tsx,ts,jsx,js}";
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -11,11 +13,6 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
-
-/* Tailwind v4: explicit source scan supaya semua class tidak di-purge di production */
-@source "../app/**/*.{tsx,ts,jsx,js}";
-@source "../components/**/*.{tsx,ts,jsx,js}";
-@source "../actions/**/*.{ts}";
 
 @media (prefers-color-scheme: dark) {
   :root {
