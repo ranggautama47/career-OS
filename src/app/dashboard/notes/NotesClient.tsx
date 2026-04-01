@@ -281,35 +281,38 @@ function NoteEditorView({ note, userId, totalNotes, onSave, onBack, onSelectNote
   return (
     <div className="flex flex-col h-screen">
       {/* Toolbar */}
-      <div className="flex items-center justify-between px-6 py-3 border-b border-slate-800 flex-shrink-0 bg-[#141d2e]">
+      <div className="flex items-center justify-between px-3 sm:px-6 py-3 border-b border-slate-800 flex-shrink-0 bg-[#141d2e]">
         <button onClick={onBack} className="flex items-center gap-1.5 text-slate-400 hover:text-white text-xs font-medium transition-colors">
           <ArrowLeft size={13} /> All Notes
         </button>
-        <div className="flex items-center gap-3">
-          {error && <span className="text-red-400 text-xs">{error}</span>}
+        <div className="flex items-center gap-2 sm:gap-3">
+          {error && <span className="text-red-400 text-xs hidden sm:inline">{error}</span>}
           {saved && <span className="text-emerald-400 text-xs flex items-center gap-1"><Save size={11} />Saved</span>}
           <button onClick={handleSave} disabled={isPending}
-            className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white text-xs font-semibold transition-colors">
+            className="flex items-center gap-1.5 px-3 sm:px-4 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white text-xs font-semibold transition-colors">
             {isPending ? <Loader2 size={12} className="animate-spin" /> : <Save size={12} />}
-            {isEdit ? "Save" : "Create Note"}
+            {isEdit ? "Save" : "Create"}
           </button>
         </div>
       </div>
 
+      {/* Error on mobile (below toolbar) */}
+      {error && <div className="sm:hidden px-3 py-1.5 bg-red-500/10 border-b border-red-500/20"><span className="text-red-400 text-xs">{error}</span></div>}
+
       {/* Body */}
       <div className="flex-1 overflow-y-auto bg-[#111827]">
-        <div className="max-w-2xl mx-auto px-6 lg:px-8 py-10 space-y-6">
+        <div className="max-w-2xl mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-10 space-y-5 sm:space-y-6">
 
           {/* Title */}
           <input
             type="text" value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Untitled"
-            className="w-full bg-transparent text-white text-3xl font-extrabold placeholder:text-slate-500 focus:outline-none leading-tight"
+            className="w-full bg-transparent text-white text-xl sm:text-3xl font-extrabold placeholder:text-slate-500 focus:outline-none leading-tight"
           />
 
           {/* Rich Text Editor */}
-          <RichEditor content={content} onChange={setContent} placeholder="Start writing..." minHeight={350} />
+          <RichEditor content={content} onChange={setContent} placeholder="Start writing..." minHeight={250} />
 
           {/* Tags */}
           <div className="space-y-2">
@@ -407,15 +410,24 @@ export function NotesClient({ initialNotes, userId }: { initialNotes: Note[]; us
     );
   }
 
+  // On mobile: show list OR read panel (not both)
+  // selectedId controls which panel is visible on mobile
+  // On desktop (lg+): always show both panels side by side
+
   // List + Read view
   return (
-    <div className="min-h-screen bg-[#111827] flex">
+    <div className="min-h-screen bg-[#111827] lg:flex">
       <ConfirmModal open={!!deleteId} onClose={() => setDeleteId(null)}
         onConfirm={() => deleteId && doDelete(deleteId)}
         title="Delete Note?" message="This cannot be undone." confirmLabel="Delete" />
 
-      {/* ── Sidebar ── */}
-      <div className="w-64 flex-shrink-0 border-r border-slate-700/50 flex flex-col h-screen sticky top-0 bg-[#141d2e]">
+      {/* ── Sidebar / Note List ── */}
+      {/* Mobile: full width, hidden when note is selected */}
+      {/* Desktop: fixed width sidebar */}
+      <div className={[
+        "lg:w-72 lg:flex-shrink-0 border-r border-slate-700/50 flex flex-col lg:h-screen lg:sticky lg:top-0 bg-[#141d2e]",
+        selectedId ? "hidden lg:flex" : "flex min-h-screen lg:min-h-0",
+      ].join(" ")}>
 
         <div className="px-4 pt-5 pb-3 border-b border-slate-800">
           <div className="flex items-center justify-between">
@@ -485,18 +497,31 @@ export function NotesClient({ initialNotes, userId }: { initialNotes: Note[]; us
       </div>
 
       {/* ── Read Panel ── */}
-      <div className="flex-1 overflow-y-auto">
+      {/* Mobile: full width, hidden when NO note selected */}
+      {/* Desktop: always visible alongside sidebar */}
+      <div className={[
+        "flex-1 overflow-y-auto",
+        selectedId ? "flex flex-col" : "hidden lg:flex lg:flex-col",
+      ].join(" ")}>
         {selectedNote ? (
-          <div className="max-w-2xl mx-auto px-8 lg:px-12 py-10">
-            <div className="flex items-start justify-between mb-5">
-              <div>
-                <h1 className="text-white text-2xl font-extrabold leading-tight mb-1">{selectedNote.title}</h1>
+          <div className="max-w-2xl mx-auto px-4 sm:px-8 lg:px-12 py-6 sm:py-10 w-full">
+            {/* Mobile back button */}
+            <button
+              onClick={() => setSelectedId(null)}
+              className="lg:hidden flex items-center gap-1.5 text-slate-400 hover:text-white text-xs font-medium transition-colors mb-4"
+            >
+              <ArrowLeft size={13} /> All Notes
+            </button>
+
+            <div className="flex items-start justify-between mb-5 gap-3">
+              <div className="min-w-0">
+                <h1 className="text-white text-xl sm:text-2xl font-extrabold leading-tight mb-1 break-words">{selectedNote.title}</h1>
                 <div className="flex items-center gap-1.5 text-slate-400 text-xs">
                   <Clock size={10} /><span>Updated {timeAgo(selectedNote.updatedAt)}</span>
                 </div>
               </div>
               <button onClick={() => openEdit(selectedNote)}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-600 hover:border-slate-500 bg-slate-700/50 hover:bg-slate-600/60 text-slate-300 hover:text-white text-xs font-medium transition-all">
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-600 hover:border-slate-500 bg-slate-700/50 hover:bg-slate-600/60 text-slate-300 hover:text-white text-xs font-medium transition-all flex-shrink-0">
                 <Edit3 size={11} /> Edit
               </button>
             </div>
@@ -508,7 +533,7 @@ export function NotesClient({ initialNotes, userId }: { initialNotes: Note[]; us
               </div>
             )}
             {/* Render HTML from TipTap */}
-            <div className="rich-editor-content" style={{ padding: 0 }}
+            <div className="rich-editor-content overflow-x-hidden" style={{ padding: 0 }}
               dangerouslySetInnerHTML={{ __html: selectedNote.content }} />
             {/* Related in read view */}
             <RelatedNotes noteId={selectedNote.id} content={selectedNote.content}
