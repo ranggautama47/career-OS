@@ -7,7 +7,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { createBrowserClient } from "@supabase/ssr";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   LayoutDashboard,
   Briefcase,
@@ -50,35 +50,63 @@ const NAV_ITEMS = [
     exact: false,
     accent: "emerald",
   },
-  { 
-    href: "/dashboard/ai", 
-    label: "AI Tools", 
-    icon: Sparkles, 
+  {
+    href: "/dashboard/ai",
+    label: "AI Tools",
+    icon: Sparkles,
     exact: false,
-    accent: "cyan" ,
-  }
+    accent: "cyan",
+  },
 ] as const;
 
 // ── Active accent colors ───────────────────────────────────────────────────
 
-const ACCENT: Record<string, { bg: string; text: string; border: string; dot: string }> = {
-  indigo:  { bg: "bg-indigo-500/15",  text: "text-indigo-300",  border: "border-indigo-500/25",  dot: "bg-indigo-400"  },
-  violet:  { bg: "bg-violet-500/15",  text: "text-violet-300",  border: "border-violet-500/25",  dot: "bg-violet-400"  },
-  amber:   { bg: "bg-amber-500/15",   text: "text-amber-300",   border: "border-amber-500/25",   dot: "bg-amber-400"   },
-  emerald: { bg: "bg-emerald-500/15", text: "text-emerald-300", border: "border-emerald-500/25", dot: "bg-emerald-400" },
-  cyan:    { bg: "bg-cyan-500/15",    text: "text-cyan-300",    border: "border-cyan-500/25",    dot: "bg-cyan-400"    },
+const ACCENT: Record<
+  string,
+  { bg: string; text: string; border: string; dot: string }
+> = {
+  indigo: {
+    bg: "bg-indigo-500/15",
+    text: "text-indigo-300",
+    border: "border-indigo-500/25",
+    dot: "bg-indigo-400",
+  },
+  violet: {
+    bg: "bg-violet-500/15",
+    text: "text-violet-300",
+    border: "border-violet-500/25",
+    dot: "bg-violet-400",
+  },
+  amber: {
+    bg: "bg-amber-500/15",
+    text: "text-amber-300",
+    border: "border-amber-500/25",
+    dot: "bg-amber-400",
+  },
+  emerald: {
+    bg: "bg-emerald-500/15",
+    text: "text-emerald-300",
+    border: "border-emerald-500/25",
+    dot: "bg-emerald-400",
+  },
+  cyan: {
+    bg: "bg-cyan-500/15",
+    text: "text-cyan-300",
+    border: "border-cyan-500/25",
+    dot: "bg-cyan-400",
+  },
 };
 
 // ── Sidebar content (shared antara desktop & mobile) ──────────────────────
 
 function SidebarContent({ onNavClick }: { onNavClick?: () => void }) {
-  const pathname    = usePathname();
-  const router      = useRouter();
+  const pathname = usePathname();
+  const router = useRouter();
   const [loggingOut, setLoggingOut] = useState(false);
 
   const supabase = createBrowserClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
   );
 
   const handleLogout = async () => {
@@ -131,9 +159,9 @@ function SidebarContent({ onNavClick }: { onNavClick?: () => void }) {
         </p>
         <ul className="space-y-1">
           {NAV_ITEMS.map((item) => {
-            const active  = isActive(item.href, item.exact);
-            const accent  = ACCENT[item.accent];
-            const Icon    = item.icon;
+            const active = isActive(item.href, item.exact);
+            const accent = ACCENT[item.accent];
+            const Icon = item.icon;
 
             return (
               <li key={item.href}>
@@ -158,7 +186,9 @@ function SidebarContent({ onNavClick }: { onNavClick?: () => void }) {
                   />
                   <span className="truncate flex-1">{item.label}</span>
                   {active && (
-                    <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${accent.dot}`} />
+                    <span
+                      className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${accent.dot}`}
+                    />
                   )}
                 </Link>
               </li>
@@ -189,6 +219,7 @@ function SidebarContent({ onNavClick }: { onNavClick?: () => void }) {
 
 export default function Sidebar() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  
 
   return (
     <>

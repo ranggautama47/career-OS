@@ -12,6 +12,11 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/* Tailwind v4: explicit source scan supaya semua class tidak di-purge di production */
+@source "../app/**/*.{tsx,ts,jsx,js}";
+@source "../components/**/*.{tsx,ts,jsx,js}";
+@source "../actions/**/*.{ts}";
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
@@ -34,7 +39,7 @@ body {
 .rich-editor-content p.is-editor-empty:first-child::before {
   content: attr(data-placeholder);
   float: left;
-  color: #64748b;  /* lebih terang dari sebelumnya */
+  color: #64748b; /* lebih terang dari sebelumnya */
   pointer-events: none;
   height: 0;
   font-size: 0.875rem;
@@ -42,7 +47,7 @@ body {
 
 /* Base text — lebih terang */
 .rich-editor-content {
-  color: #e2e8f0;  /* slate-200 bukan slate-300 */
+  color: #e2e8f0; /* slate-200 bukan slate-300 */
   font-size: 0.9rem;
   line-height: 1.8;
   caret-color: #34d399;
@@ -86,7 +91,7 @@ body {
 /* Inline code */
 .rich-editor-content code {
   background: #1e293b;
-  color: #4ade80;   /* green-400 lebih terang */
+  color: #4ade80; /* green-400 lebih terang */
   padding: 0.15em 0.45em;
   border-radius: 5px;
   font-size: 0.82em;
@@ -105,7 +110,7 @@ body {
 }
 .rich-editor-content pre code {
   background: transparent;
-  color: #86efac;   /* green-300 */
+  color: #86efac; /* green-300 */
   border: none;
   padding: 0;
   font-size: 0.83rem;
@@ -113,9 +118,9 @@ body {
 
 /* Blockquote */
 .rich-editor-content blockquote {
-  border-left: 3px solid #4ade80;  /* green accent */
+  border-left: 3px solid #4ade80; /* green accent */
   padding: 0.5rem 0 0.5rem 1rem;
-  color: #94a3b8;  /* slate-400 lebih terang */
+  color: #94a3b8; /* slate-400 lebih terang */
   font-style: italic;
   margin: 0.75rem 0;
   background: rgba(74, 222, 128, 0.04);
@@ -155,7 +160,11 @@ body {
   flex-shrink: 0;
   margin-top: 0.15rem;
 }
-.rich-editor-content ul[data-type="taskList"] li > label input[type="checkbox"] {
+.rich-editor-content
+  ul[data-type="taskList"]
+  li
+  > label
+  input[type="checkbox"] {
   width: 15px;
   height: 15px;
   accent-color: #34d399;
@@ -173,7 +182,7 @@ body {
 /* HR */
 .rich-editor-content hr {
   border: none;
-  border-top: 1px solid #334155;  /* lebih terang */
+  border-top: 1px solid #334155; /* lebih terang */
   margin: 1.2rem 0;
 }
 
@@ -183,7 +192,7 @@ body {
   font-weight: 700;
 }
 .rich-editor-content em {
-  color: #cbd5e1;  /* slate-300 */
+  color: #cbd5e1; /* slate-300 */
 }
 
 /* Selection highlight */
