@@ -7,7 +7,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { createBrowserClient } from "@supabase/ssr";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   LayoutDashboard,
   Briefcase,
@@ -59,43 +59,50 @@ const NAV_ITEMS = [
   },
 ] as const;
 
-// ── Active accent colors ───────────────────────────────────────────────────
+// ── Active accent classes (static strings so Tailwind v4 scanner can detect) ──
+// IMPORTANT: Each class string must be written as a full static literal.
+// Do NOT use template literals or dynamic concatenation for Tailwind classes.
 
-const ACCENT: Record<
-  string,
-  { bg: string; text: string; border: string; dot: string }
-> = {
-  indigo: {
-    bg: "bg-indigo-500/15",
-    text: "text-indigo-300",
-    border: "border-indigo-500/25",
-    dot: "bg-indigo-400",
-  },
-  violet: {
-    bg: "bg-violet-500/15",
-    text: "text-violet-300",
-    border: "border-violet-500/25",
-    dot: "bg-violet-400",
-  },
-  amber: {
-    bg: "bg-amber-500/15",
-    text: "text-amber-300",
-    border: "border-amber-500/25",
-    dot: "bg-amber-400",
-  },
-  emerald: {
-    bg: "bg-emerald-500/15",
-    text: "text-emerald-300",
-    border: "border-emerald-500/25",
-    dot: "bg-emerald-400",
-  },
-  cyan: {
-    bg: "bg-cyan-500/15",
-    text: "text-cyan-300",
-    border: "border-cyan-500/25",
-    dot: "bg-cyan-400",
-  },
-};
+function getActiveClasses(accent: string) {
+  switch (accent) {
+    case "indigo":
+      return {
+        container: "bg-indigo-500/15 text-indigo-300 border-indigo-500/25",
+        icon: "text-indigo-300",
+        dot: "bg-indigo-400",
+      };
+    case "violet":
+      return {
+        container: "bg-violet-500/15 text-violet-300 border-violet-500/25",
+        icon: "text-violet-300",
+        dot: "bg-violet-400",
+      };
+    case "amber":
+      return {
+        container: "bg-amber-500/15 text-amber-300 border-amber-500/25",
+        icon: "text-amber-300",
+        dot: "bg-amber-400",
+      };
+    case "emerald":
+      return {
+        container: "bg-emerald-500/15 text-emerald-300 border-emerald-500/25",
+        icon: "text-emerald-300",
+        dot: "bg-emerald-400",
+      };
+    case "cyan":
+      return {
+        container: "bg-cyan-500/15 text-cyan-300 border-cyan-500/25",
+        icon: "text-cyan-300",
+        dot: "bg-cyan-400",
+      };
+    default:
+      return {
+        container: "bg-slate-500/15 text-slate-300 border-slate-500/25",
+        icon: "text-slate-300",
+        dot: "bg-slate-400",
+      };
+  }
+}
 
 // ── Sidebar content (shared antara desktop & mobile) ──────────────────────
 
@@ -160,7 +167,7 @@ function SidebarContent({ onNavClick }: { onNavClick?: () => void }) {
         <ul className="space-y-1">
           {NAV_ITEMS.map((item) => {
             const active = isActive(item.href, item.exact);
-            const accent = ACCENT[item.accent];
+            const accentClasses = getActiveClasses(item.accent);
             const Icon = item.icon;
 
             return (
@@ -173,7 +180,7 @@ function SidebarContent({ onNavClick }: { onNavClick?: () => void }) {
                     "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium",
                     "transition-all duration-150 border",
                     active
-                      ? `${accent.bg} ${accent.text} ${accent.border}`
+                      ? accentClasses.container
                       : "text-slate-400 hover:text-slate-100 hover:bg-slate-700/40 border-transparent",
                   ].join(" ")}
                 >
@@ -181,13 +188,16 @@ function SidebarContent({ onNavClick }: { onNavClick?: () => void }) {
                     size={16}
                     className={[
                       "flex-shrink-0 transition-colors",
-                      active ? accent.text : "text-slate-500",
+                      active ? accentClasses.icon : "text-slate-500",
                     ].join(" ")}
                   />
                   <span className="truncate flex-1">{item.label}</span>
                   {active && (
                     <span
-                      className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${accent.dot}`}
+                      className={[
+                        "w-1.5 h-1.5 rounded-full flex-shrink-0",
+                        accentClasses.dot,
+                      ].join(" ")}
                     />
                   )}
                 </Link>

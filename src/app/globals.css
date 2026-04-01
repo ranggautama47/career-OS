@@ -2,6 +2,35 @@
 
 @source "../**/*.{tsx,ts,jsx,js}";
 
+/* Safelist: force-include essential layout & accent classes for production */
+/* These classes MUST survive purging even if scanner misses them */
+@source inline("
+  flex hidden lg:flex lg:hidden min-h-screen h-screen sticky top-0
+  flex-col flex-1 flex-shrink-0 min-w-0
+  w-60 w-64 pt-14 lg:pt-0
+  translate-x-0 -translate-x-full
+  fixed inset-0 z-40 z-50
+  border-r bg-slate-900 bg-[#0a0f1e]
+  grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 lg:col-span-3 lg:col-span-2
+  bg-gradient-to-br bg-gradient-to-r
+  from-violet-600/25 via-violet-500/10 from-amber-600/25 via-amber-500/10
+  from-red-600/20 via-amber-600/10 from-emerald-600/25 via-emerald-500/10
+  from-indigo-500 to-violet-500 to-transparent
+  border-violet-500/25 border-amber-500/25 border-red-500/30 border-emerald-500/25
+  bg-violet-500/15 bg-amber-500/15 bg-red-500/15 bg-emerald-500/15
+  text-violet-300 text-amber-300 text-red-300 text-emerald-300
+  bg-indigo-500/15 text-indigo-300 border-indigo-500/25
+  bg-violet-500/10 border-violet-500/25 bg-indigo-500/10 border-indigo-500/25
+  bg-emerald-500/10 border-emerald-500/25 bg-amber-500/10 border-amber-500/20
+  bg-emerald-500/10 border-emerald-500/20
+  hover:bg-violet-500/15 hover:border-violet-400/40 border-violet-500/20
+  hover:bg-amber-500/15 hover:border-amber-400/40 border-amber-500/20
+  hover:bg-emerald-500/15 hover:border-emerald-400/40 border-emerald-500/20
+  bg-cyan-500/15 text-cyan-300 border-cyan-500/25 bg-cyan-400
+  bg-indigo-400 bg-violet-400 bg-amber-400 bg-emerald-400
+  hover:scale-[1.02]
+");
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
