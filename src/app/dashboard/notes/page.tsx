@@ -1,8 +1,22 @@
 // src/app/dashboard/notes/page.tsx
 import { redirect } from "next/navigation";
+import dynamic from "next/dynamic";
 import { getCurrentUser } from "@/lib/supabase-server";
 import { getNotes } from "@/actions/note-actions";
-import { NotesClient } from "./NotesClient";
+
+// Dynamic import — TipTap editor tidak di-load sampai halaman notes dibuka
+// Ini kurangi JS bundle di halaman lain secara signifikan
+const NotesClient = dynamic(
+  () => import("./NotesClient").then((m) => ({ default: m.NotesClient })),
+  {
+    loading: () => (
+      <div className="min-h-screen bg-[#0a0f1e] flex items-center justify-center">
+        <div className="text-slate-500 text-sm">Loading notes...</div>
+      </div>
+    ),
+    ssr: false,
+  },
+);
 
 type Note = {
   id: string;
@@ -19,10 +33,10 @@ export default async function NotesPage() {
 
   const result = await getNotes(user.id);
 
-  // Type-safe: pastikan data tidak undefined
-  const notes: Note[] = result.success && result.data
-    ? result.data.filter((n): n is Note => n !== undefined)
-    : [];
+  const notes: Note[] =
+    result.success && result.data
+      ? result.data.filter((n): n is Note => n !== undefined)
+      : [];
 
   return <NotesClient initialNotes={notes} userId={user.id} />;
 }
