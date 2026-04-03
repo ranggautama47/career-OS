@@ -10,7 +10,6 @@ const AiToolsClient = dynamic(() => import("./AiToolsClient"), {
       <div className="text-slate-500 text-sm">Loading AI Tools...</div>
     </div>
   ),
-  ssr: false,
 });
 
 export default async function AiToolsPage() {

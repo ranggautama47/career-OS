@@ -14,7 +14,6 @@ const NotesClient = dynamic(
         <div className="text-slate-500 text-sm">Loading notes...</div>
       </div>
     ),
-    ssr: false,
   },
 );
 
