@@ -12,7 +12,7 @@
 
 ## 🎬 Demo Video
 
-> 📺 **[Watch CareerOS Demo on YouTube →](https://youtube.com/your-link-here)**
+> 📺 **[Watch CareerOS Demo on YouTube →](https://youtube.com/https://youtu.be/TTCx9fyJ3_o)**
 
 ---
 
