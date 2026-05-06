@@ -1,5 +1,5 @@
 // src/app/api/ai/suggest-tags/route.ts
-// Gemini AI tag suggestion dari konten note
+// Gemini AI tag suggestion dari konten note — updated May 2026
 
 import { GoogleGenAI } from "@google/genai";
 import { NextResponse } from "next/server";
@@ -33,26 +33,26 @@ ${plainText}`;
 
     let rawText = "";
     
-    // 1️⃣ Coba gemini-2.0-flash
+    // 1️⃣ gemini-3.1-flash-lite-preview — 500 RPD (terbesar, paling cocok untuk tag)
     try {
-      rawText = await callGemini("gemini-2.0-flash", prompt);
-      console.log("[suggest-tags] ✅ gemini-2.0-flash OK");
+      rawText = await callGemini("gemini-3.1-flash-lite-preview", prompt);
+      console.log("[suggest-tags] ✅ gemini-3.1-flash-lite-preview OK");
     } catch (e1) {
-      console.warn("[suggest-tags] gemini-2.0-flash gagal:", (e1 as Error).message?.slice(0, 80));
+      console.warn("[suggest-tags] gemini-3.1-flash-lite-preview gagal:", (e1 as Error).message?.slice(0, 80));
       
-      // 2️⃣ Fallback ke gemini-1.5-flash
+      // 2️⃣ Fallback ke gemini-2.5-flash-lite (20 RPD)
       try {
-        rawText = await callGemini("gemini-1.5-flash", prompt);
-        console.log("[suggest-tags] ✅ gemini-1.5-flash OK");
+        rawText = await callGemini("gemini-2.5-flash-lite", prompt);
+        console.log("[suggest-tags] ✅ gemini-2.5-flash-lite OK");
       } catch (e2) {
-        console.warn("[suggest-tags] gemini-1.5-flash gagal:", (e2 as Error).message?.slice(0, 80));
+        console.warn("[suggest-tags] gemini-2.5-flash-lite gagal:", (e2 as Error).message?.slice(0, 80));
 
-        // 3️⃣ Fallback ke gemini-1.5-flash-8b
+        // 3️⃣ Fallback ke gemini-2.5-flash (20 RPD)
         try {
-          rawText = await callGemini("gemini-1.5-flash-8b", prompt);
-          console.log("[suggest-tags] ✅ gemini-1.5-flash-8b OK");
+          rawText = await callGemini("gemini-2.5-flash", prompt);
+          console.log("[suggest-tags] ✅ gemini-2.5-flash OK");
         } catch (e3) {
-          console.warn("[suggest-tags] gemini-1.5-flash-8b gagal juga:", (e3 as Error).message?.slice(0, 80));
+          console.warn("[suggest-tags] gemini-2.5-flash gagal juga:", (e3 as Error).message?.slice(0, 80));
         }
       }
     }
@@ -79,4 +79,4 @@ ${plainText}`;
     console.error("[suggest-tags]", error);
     return NextResponse.json({ tags: [] }, { status: 500 });
   }
-}
+}

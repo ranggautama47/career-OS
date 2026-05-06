@@ -1,5 +1,5 @@
 // src/app/api/ai/coach/route.ts
-// AI Career Coach — gemini-2.5-flash (reasoning lebih baik untuk analisis resume)
+// AI Career Coach — menggunakan model Gemini free tier terbaru (May 2026)
 
 import { GoogleGenAI } from "@google/genai";
 import { NextResponse } from "next/server";
@@ -49,31 +49,31 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Resume text kosong" }, { status: 400 });
     }
 
-    // 1️⃣ Coba gemini-2.0-flash
+    // 1️⃣ gemini-2.5-flash — reasoning terbaik untuk analisis resume (20 RPD)
     try {
-      const text = await callGemini("gemini-2.0-flash", userMessage);
-      console.log("[coach] ✅ gemini-2.0-flash OK");
-      return NextResponse.json({ text, model: "gemini-2.0-flash" });
+      const text = await callGemini("gemini-2.5-flash", userMessage);
+      console.log("[coach] ✅ gemini-2.5-flash OK");
+      return NextResponse.json({ text, model: "gemini-2.5-flash" });
     } catch (e1) {
-      console.warn("[coach] gemini-2.0-flash gagal:", (e1 as Error).message?.slice(0, 80));
+      console.warn("[coach] gemini-2.5-flash gagal:", (e1 as Error).message?.slice(0, 80));
     }
 
-    // 2️⃣ Fallback ke gemini-1.5-flash
+    // 2️⃣ Fallback ke gemini-3-flash (20 RPD)
     try {
-      const text = await callGemini("gemini-1.5-flash", userMessage);
-      console.log("[coach] ✅ gemini-1.5-flash OK");
-      return NextResponse.json({ text, model: "gemini-1.5-flash" });
+      const text = await callGemini("gemini-3-flash", userMessage);
+      console.log("[coach] ✅ gemini-3-flash OK");
+      return NextResponse.json({ text, model: "gemini-3-flash" });
     } catch (e2) {
-      console.warn("[coach] gemini-1.5-flash gagal:", (e2 as Error).message?.slice(0, 80));
+      console.warn("[coach] gemini-3-flash gagal:", (e2 as Error).message?.slice(0, 80));
     }
 
-    // 3️⃣ Fallback ke gemini-1.5-flash-8b
+    // 3️⃣ Fallback ke gemini-3.1-flash-lite-preview (500 RPD)
     try {
-      const text = await callGemini("gemini-1.5-flash-8b", userMessage);
-      console.log("[coach] ✅ gemini-1.5-flash-8b OK");
-      return NextResponse.json({ text, model: "gemini-1.5-flash-8b" });
+      const text = await callGemini("gemini-3.1-flash-lite-preview", userMessage);
+      console.log("[coach] ✅ gemini-3.1-flash-lite-preview OK");
+      return NextResponse.json({ text, model: "gemini-3.1-flash-lite-preview" });
     } catch (e3) {
-      console.warn("[coach] gemini-1.5-flash-8b gagal juga:", (e3 as Error).message?.slice(0, 80));
+      console.warn("[coach] gemini-3.1-flash-lite-preview gagal juga:", (e3 as Error).message?.slice(0, 80));
     }
 
     // 4️⃣ Static Fallback

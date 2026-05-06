@@ -1,14 +1,14 @@
 // src/app/api/ai/motivate/route.ts
 //
-// Model strategy (updated Mar 2026 — sesuai Gemini API quota screenshot):
+// Model strategy (updated May 2026 — sesuai Gemini API free tier terbaru):
 //
-//  1️⃣  gemini-2.0-flash-lite   → GRATIS, quota besar, cepat  ← PRIMARY
-//  2️⃣  gemini-2.0-flash-exp    → GRATIS, experimental        ← FALLBACK 1
-//  3️⃣  gemini-2.0-flash        → GRATIS, 200 RPD (free tier) ← FALLBACK 2
-//  4️⃣  static FALLBACK         → 5 variasi per status        ← LAST RESORT
+//  1️⃣  gemini-3.1-flash-lite-preview → GRATIS, 500 RPD, cepat  ← PRIMARY
+//  2️⃣  gemini-2.5-flash-lite         → GRATIS, 20 RPD          ← FALLBACK 1
+//  3️⃣  gemini-2.5-flash              → GRATIS, 20 RPD, reasoning baik ← FALLBACK 2
+//  4️⃣  static FALLBACK               → 5 variasi per status    ← LAST RESORT
 //
-// ❌ DEPRECATED (sudah 404): gemini-1.5-flash, gemini-1.5-flash-8b
-// ⚠️  QUOTA KETAT (20 RPD): gemini-2.5-flash — jangan pakai untuk motivasi
+// ❌ DEPRECATED (sudah tidak tersedia): gemini-2.0-flash, gemini-2.0-flash-lite,
+//    gemini-2.0-flash-exp, gemini-1.5-flash, gemini-1.5-flash-8b
 
 import { GoogleGenAI } from "@google/genai";
 import { NextResponse } from "next/server";
@@ -99,31 +99,31 @@ export async function POST(req: Request) {
       ? `Status lamaran: ${status}\nPerusahaan: ${company}\nPosisi: ${position}`
       : `Status lamaran: ${status}`;
 
-    // 1️⃣ gemini-2.0-flash-lite — gratis, quota besar, TIDAK deprecated
+    // 1️⃣ gemini-3.1-flash-lite-preview — gratis, 500 RPD (quota terbesar)
     try {
-      const text = await callGemini("gemini-2.0-flash-lite", context);
-      console.log("[motivate] ✅ gemini-2.0-flash-lite OK");
-      return NextResponse.json({ message: text, model: "gemini-2.0-flash-lite" });
+      const text = await callGemini("gemini-3.1-flash-lite-preview", context);
+      console.log("[motivate] ✅ gemini-3.1-flash-lite-preview OK");
+      return NextResponse.json({ message: text, model: "gemini-3.1-flash-lite-preview" });
     } catch (e1) {
-      console.warn("[motivate] gemini-2.0-flash-lite gagal:", (e1 as Error).message?.slice(0, 100));
+      console.warn("[motivate] gemini-3.1-flash-lite-preview gagal:", (e1 as Error).message?.slice(0, 100));
     }
 
-    // 2️⃣ gemini-2.0-flash-exp — gratis, experimental (sering quota lebih longgar)
+    // 2️⃣ gemini-2.5-flash-lite — gratis, 20 RPD
     try {
-      const text = await callGemini("gemini-2.0-flash-exp", context);
-      console.log("[motivate] ✅ gemini-2.0-flash-exp OK");
-      return NextResponse.json({ message: text, model: "gemini-2.0-flash-exp" });
+      const text = await callGemini("gemini-2.5-flash-lite", context);
+      console.log("[motivate] ✅ gemini-2.5-flash-lite OK");
+      return NextResponse.json({ message: text, model: "gemini-2.5-flash-lite" });
     } catch (e2) {
-      console.warn("[motivate] gemini-2.0-flash-exp gagal:", (e2 as Error).message?.slice(0, 100));
+      console.warn("[motivate] gemini-2.5-flash-lite gagal:", (e2 as Error).message?.slice(0, 100));
     }
 
-    // 3️⃣ gemini-2.0-flash — free tier 200 RPD
+    // 3️⃣ gemini-2.5-flash — gratis, 20 RPD, reasoning lebih baik
     try {
-      const text = await callGemini("gemini-2.0-flash", context);
-      console.log("[motivate] ✅ gemini-2.0-flash OK");
-      return NextResponse.json({ message: text, model: "gemini-2.0-flash" });
+      const text = await callGemini("gemini-2.5-flash", context);
+      console.log("[motivate] ✅ gemini-2.5-flash OK");
+      return NextResponse.json({ message: text, model: "gemini-2.5-flash" });
     } catch (e3) {
-      console.warn("[motivate] gemini-2.0-flash gagal:", (e3 as Error).message?.slice(0, 100));
+      console.warn("[motivate] gemini-2.5-flash gagal:", (e3 as Error).message?.slice(0, 100));
     }
 
     // 4️⃣ Static fallback — 5 variasi per status, random tiap refresh
