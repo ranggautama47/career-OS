@@ -2,11 +2,13 @@
 
 > One platform for everything in your career journey — track job applications, manage tasks & learning, take smart notes, and get AI assistance that actually understands context.
 
-[![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=next.js)](https://nextjs.org)
+[![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)](https://nextjs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)](https://www.typescriptlang.org)
 [![Prisma](https://img.shields.io/badge/Prisma-ORM-2D3748?logo=prisma)](https://www.prisma.io)
 [![Supabase](https://img.shields.io/badge/Supabase-Auth%20%2B%20DB-3ECF8E?logo=supabase)](https://supabase.com)
 [![Gemini](https://img.shields.io/badge/Google-Gemini%20AI-4285F4?logo=google)](https://ai.google.dev)
+[![Vercel Analytics](https://img.shields.io/badge/Vercel-Analytics-000000?logo=vercel)](https://vercel.com/analytics)
+[![Speed Insights](https://img.shields.io/badge/Vercel-Speed%20Insights-000000?logo=vercel)](https://vercel.com/docs/speed-insights)
 
 ---
 
@@ -111,16 +113,18 @@ What I'm most proud of: this is a **fully integrated system**. One login, one da
 
 ## 🛠 Tech Stack
 
-| Layer     | Technology                                                                          |
-| --------- | ----------------------------------------------------------------------------------- |
-| Framework | Next.js 15 (App Router)                                                             |
-| Language  | TypeScript                                                                          |
-| Styling   | Tailwind CSS                                                                        |
-| ORM       | Prisma                                                                              |
-| Database  | PostgreSQL (Supabase) + pgvector                                                    |
-| Auth      | Supabase Auth (`@supabase/ssr`)                                                     |
-| AI        | Google Gemini (`gemini-2.0-flash-lite`, `gemini-2.5-flash`, `gemini-embedding-001`) |
-| Editor    | TipTap (Rich Text)                                                                  |
+| Layer           | Technology                                                                                            |
+| --------------- | ----------------------------------------------------------------------------------------------------- |
+| Framework       | Next.js 16 (App Router)                                                                               |
+| Language        | TypeScript                                                                                            |
+| Styling         | Tailwind CSS                                                                                          |
+| ORM             | Prisma                                                                                                |
+| Database        | PostgreSQL (Supabase) + pgvector                                                                      |
+| Auth            | Supabase Auth (`@supabase/ssr`)                                                                       |
+| AI              | Google Gemini (`gemini-3.1-flash-lite-preview`, `gemini-2.5-flash`, `gemini-embedding-001`)           |
+| Editor          | TipTap (Rich Text)                                                                                    |
+| Analytics       | Vercel Analytics (`@vercel/analytics`) — real-time visitor tracking                                   |
+| Speed Insights  | Vercel Speed Insights (`@vercel/speed-insights`) — Core Web Vitals monitoring                         |
 
 ---
 
@@ -289,11 +293,29 @@ npm run dev
 
 ## 🤖 AI Model Strategy
 
-| Model                   | Used For                     | Free Tier Quota |
-| ----------------------- | ---------------------------- | --------------- |
-| `gemini-2.0-flash-lite` | Daily motivation (primary)   | Large           |
-| `gemini-2.5-flash`      | Career Coach & Task Planner  | 20 RPD          |
-| `gemini-embedding-001`  | Vector embeddings (768 dims) | 1K RPD          |
+Semua model AI yang digunakan adalah **free tier** dari [Google AI Studio](https://aistudio.google.com/).
+Setiap endpoint menggunakan **waterfall fallback** — jika model utama gagal/quota habis, otomatis pindah ke model berikutnya, dan terakhir ke **static fallback** sehingga UI tidak pernah pecah.
+
+### Model Aktif (Mei 2026)
+
+| Model                         | Digunakan Untuk                              | Free Tier Quota | Prioritas  |
+| ----------------------------- | -------------------------------------------- | --------------- | ---------- |
+| `gemini-3.1-flash-lite-preview` | Motivasi harian & suggest tags (high volume) | **500 RPD**     | ⭐ Primary  |
+| `gemini-2.5-flash-lite`       | Fallback motivasi & tags                     | 20 RPD          | Fallback 1 |
+| `gemini-2.5-flash`            | Career Coach & Task Planner (reasoning baik) | 20 RPD          | ⭐ Primary  |
+| `gemini-3-flash`              | Fallback planner & coach                     | 20 RPD          | Fallback 2 |
+| `gemini-embedding-001`        | Vector embeddings (768 dims) — semantic search | Unlimited     | Embedding  |
+
+### Waterfall Fallback per Endpoint
+
+| Endpoint           | Primary                         | Fallback 1              | Fallback 2              | Last Resort     |
+| ------------------ | ------------------------------- | ----------------------- | ----------------------- | --------------- |
+| `/api/ai/motivate` | `gemini-3.1-flash-lite-preview` | `gemini-2.5-flash-lite` | `gemini-2.5-flash`      | Static (5 variasi) |
+| `/api/ai/planner`  | `gemini-2.5-flash`              | `gemini-3-flash`        | `gemini-3.1-flash-lite-preview` | Static JSON |
+| `/api/ai/coach`    | `gemini-2.5-flash`              | `gemini-3-flash`        | `gemini-3.1-flash-lite-preview` | Static JSON |
+| `/api/ai/suggest-tags` | `gemini-3.1-flash-lite-preview` | `gemini-2.5-flash-lite` | `gemini-2.5-flash`  | Empty array     |
+
+> ❌ **Deprecated (sudah tidak tersedia):** `gemini-2.0-flash`, `gemini-2.0-flash-lite`, `gemini-2.0-flash-exp`, `gemini-1.5-flash`, `gemini-1.5-flash-8b`
 
 ---
 
